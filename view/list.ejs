@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %></title>
+    <style rel="stylesheet">
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            list-style-type: none;
+        }
+        #list {
+            margin: 0 auto;
+            width: 66vw;
+        }
+        #list li {
+            cursor: pointer;
+            background-color: #f7f7f7;
+            margin: 10px 0;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+    <ul id="list">
+        <% list.forEach(function (item) { %>
+        <li data-id="<%- item.articleId %>">
+            <h3><%- item.title %></h3>
+            <p><%- item.summary %></p>
+        </li>
+        <% }) %>
+    </ul>
+
+    <script>
+        var list = document.querySelector('#list');
+
+        var findParent = function (el, tagName) {
+            var parent = el.parentNode;
+            if (parent.nodeName.toLowerCase() === tagName) {
+                return parent;
+            } else {
+                findParent(parent, tagName);
+            }
+        }
+
+        list.onclick = function (e) {
+            var target = e.target;
+            var li;
+            if (target.nodeName.toLowerCase() === 'li') {
+                li = target;
+            } else if (target.id === 'list') {
+                return;
+            } else {
+                li = findParent(target, 'li');
+            }
+            var id = li.getAttribute('data-id');
+            window.location.href = 'article/' + id;
+        }
+    </script>
+</body>
+</html>
